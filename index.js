@@ -7,6 +7,25 @@ app.use(express.urlencoded({ extended: false }));
 
 var users = new Array();
 
+app.get("/api/users/:id", (req, res) => {
+    const userId = req.params.id;
+
+    if (!userId) {
+        return res.status(400).json({message : "Need a userId"});
+    }
+
+    for (var i = 0; i < users.length; i++) {
+        const currUser = users[i];
+        if (currUser.id == userId) {
+            return res.status(200).json(currUser);
+        }
+    }
+
+    // console.log(userId);
+    // return res.json({userId: userId});
+    return res.json({message: "User not found with that id"});
+});
+
 app.post("/api/users", (req, res) => {
     const user = req.body;
     const bodyFirstname = user.firstname;
