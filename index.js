@@ -2,6 +2,14 @@ const express = require("express");
 
 const app = express();
 
+const constants = require("./constants");
+// console.log(constants);
+
+const ValidationService = require("./validation-service");
+const valServ = new ValidationService();
+console.log(valServ);
+console.log(ValidationService);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
