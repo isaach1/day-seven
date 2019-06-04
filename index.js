@@ -2,18 +2,35 @@ const express = require("express");
 
 const app = express();
 
+const fs = require("fs");
+
 const constants = require("./constants");
 // console.log(constants);
 
-const ValidationService = require("./validation-service");
-const valServ = new ValidationService();
-console.log(valServ);
-console.log(ValidationService);
+// const ValidationService = require("./validation-service");
+// const valServ = new ValidationService();
+// console.log(valServ);
+// console.log(ValidationService);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 var users = new Array();
+
+app.post("/read/file", (req, res) => {
+    fs.readFile("./data/file.json", function(err, data) {
+        // console.log("in here");
+        if (err) {
+            // console.log("also in here");
+            return res.status(500).json({message: "unable to open file"});
+        }
+        var parseData = JSON.parse(data);
+        // console.log(data);
+        return res.status(200).json(parseData);
+    });
+    
+    // res.send("Reading file");
+});
 
 app.get("/api/users/:id", (req, res) => {
     const userId = req.params.id;
